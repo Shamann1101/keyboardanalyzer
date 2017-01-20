@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Keyboard</title>
+    <link rel="stylesheet" href="css/keyboard.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="keyboard">
+        <table class="table">
+            <tr>
+                <td id="192" class="symbol">`</td>
+                <td id="49" class="symbol">1</td>
+                <td id="50" class="symbol">2</td>
+                <td id="51" class="symbol">3</td>
+                <td id="52" class="symbol">4</td>
+                <td id="53" class="symbol">5</td>
+                <td id="54" class="symbol">6</td>
+                <td id="55" class="symbol">7</td>
+                <td id="56" class="symbol">8</td>
+                <td id="57" class="symbol">9</td>
+                <td id="48" class="symbol">0</td>
+                <td id="189" class="symbol">-</td>
+                <td id="187" class="symbol">=</td>
+                <td id="8" class="delete lastitem">delete</td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td id="9" class="tab">tab</td>
+                <td id="81" class="letter">q</td>
+                <td id="87" class="letter">w</td>
+                <td id="69" class="letter">e</td>
+                <td id="82" class="letter">r</td>
+                <td id="84" class="letter">t</td>
+                <td id="89" class="letter">y</td>
+                <td id="85" class="letter">u</td>
+                <td id="73" class="letter">i</td>
+                <td id="79" class="letter">o</td>
+                <td id="80" class="letter">p</td>
+                <td id="219" class="symbol">[</td>
+                <td id="221" class="symbol">]</td>
+                <td id="220" class="symbol lastitem">\</td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td id="20" class="capslock">caps</td>
+                <td id="65" class="letter">a</td>
+                <td id="83" class="letter">s</td>
+                <td id="68" class="letter">d</td>
+                <td id="70" class="letter">f</td>
+                <td id="71" class="letter">g</td>
+                <td id="72" class="letter">h</td>
+                <td id="74" class="letter">j</td>
+                <td id="75" class="letter">k</td>
+                <td id="76" class="letter">l</td>
+                <td id="186" class="symbol">;</td>
+                <td id="222" class="symbol">'</td>
+                <td id="13" class="return lastitem">return</td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td id="16" class="left-shift">shift</td>
+                <td id="90" class="letter">z</td>
+                <td id="88" class="letter">x</td>
+                <td id="67" class="letter">c</td>
+                <td id="86" class="letter">v</td>
+                <td id="66" class="letter">b</td>
+                <td id="78" class="letter">n</td>
+                <td id="77" class="letter">m</td>
+                <td id="188" class="symbol">,</td>
+                <td id="190" class="symbol">.</td>
+                <td id="191" class="symbol">/</td>
+                <td id="16a" class="right-shift lastitem">shift</td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td id="17" class="">ctrl</td>
+                <td id="18" class="">opt</td>
+                <td id="91" class="">cmd</td>
+                <td id="32" class="space lastitem" width="50%">Space</td>
+                <td id="93" class="">cmd</td>
+                <td id="18" class="">opt</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="text-container">
+        <textarea id="keyboardtarget" autofocus disabled></textarea>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<!--    <script src="js/keyboard.js"></script>-->
+    <script src="js/analyzer.js"></script>
+</body>
+
+</html>

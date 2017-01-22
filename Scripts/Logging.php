@@ -35,21 +35,24 @@ class Logging
 		$fileName = str_replace('.', '_', $param['user_ip']).'.txt';
 		$fileDir = self::DIR.$fileName;
 
-//		$arrkey = array_keys($param); На случай, если будут нужны ключи
+		$arrkey = array_keys($param);
 		$arrval = array_values($param);
-		$somecontent = '';
+		$data = '';
 		for ($i = 0; $i < count($arrval); $i++) {
-			$somecontent .= $arrval[$i].' ';
+			if ($arrkey[$i] == 'user_ip') {
+				continue;
+			}
+			$data .= $arrval[$i].' ';
 		}
 
-		$somecontent .= PHP_EOL;
+		$data .= PHP_EOL;
 
 		if (!$handle = fopen($fileDir, 'a')) {
 			 echo "Не могу открыть файл ($fileDir)";
 			 exit;
 		}
 
-		if (fwrite($handle, $somecontent) === FALSE) {
+		if (fwrite($handle, $data) === FALSE) {
 			echo "Не могу произвести запись в файл ($fileDir)";
 			exit;
 		}
@@ -64,9 +67,6 @@ class Logging
 	*/
 //	public function run($input) {
 	public function __construct($input) {
-		$params = $this->jsonDecoder($input);
-		$this->writing($params);
+		$this->writing($input);
 	}
 }
-
-?>

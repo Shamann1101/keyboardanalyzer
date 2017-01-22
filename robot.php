@@ -3,15 +3,24 @@
 require_once('Scripts/Logging.php');
 require_once('Scripts/Analyzer.php');
 
-if (empty($_POST)) echo 'ERROR';	//Ничего не приходит
+if (empty($_POST)) echo 'INPUT DATA IS EMPTY';	//Ничего не приходит
+/*
+$test_patch = 'log/test.txt';
 
-$http=fopen("php://stdin","r");
-$tmp='';
-while($s=fread($http,1024))
-	$tmp.=$s;
-fclose($http);
+$test = fopen($test_patch, 'a');
 
-var_dump($tmp);
+fwrite($test, ' '.$_POST['key']);
 
-$log = new Logging($_POST);
-?>
+fclose($test);
+*/
+$data = $_POST;
+
+$data['user_ip'] = $_SERVER['REMOTE_ADDR'];
+
+//var_dump($data);
+
+$log = new Logging($data);
+
+$proc = new Analyzer($data['key']);
+
+var_dump($proc);

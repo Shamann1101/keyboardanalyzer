@@ -6,7 +6,7 @@ class Analyzer
 	* Адрес файла анализатора
 	*/
 	const PATCH = 'log/analyzer.txt';
-	
+
 	/**
 	* Функция поиска предыдущего значения ключа
 	*
@@ -20,10 +20,10 @@ class Analyzer
 			 exit;
 		}
 		if (filesize(self::PATCH) == 0) {
-			$somecontent = array ('count' => '1', $key => '1');
-			fwrite($handle, json_encode($somecontent));
+			$data = array ('count' => '1', $key => '1');
+			fwrite($handle, json_encode($data));
 			fclose($handle);
-			return 100;
+			return intval(100);
 		}
 		$contents = fread($handle, filesize(self::PATCH));
 		$contents = json_decode($contents);	//Ругается на формат
@@ -33,10 +33,15 @@ class Analyzer
 		
 		if (isset($contents[$key])) {
 			$x = $contents[$key];
+		} else {
+			$contents[$key] = 1;
 		};
 		
-		$proc = ($x / $contents['count'] * 100);
+		$contents['count']++;
 		
+		$proc = ($x / $contents['count'] * 100);
+
+		fwrite($handle, json_encode($contents));
 		fclose($handle);
 		
 		return $proc;
@@ -50,5 +55,3 @@ class Analyzer
 		echo $this->edit_data($key);
 	}
 }
-
-?>

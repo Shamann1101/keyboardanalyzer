@@ -12,3 +12,6 @@ $data['user_ip'] = $_SERVER['REMOTE_ADDR'];
 $log = new Logging($data);
 
 $proc = new Analyzer($data['key']);
+
+//var_dump($proc);
+

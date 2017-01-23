@@ -39,12 +39,11 @@ class Analyzer
         if (isset($contents[$key])) {
 			$contents[$key]++;
 		} else {
-            echo 'Nope '.$key.PHP_EOL;
 			$contents[$key] = 1;
 		};
 
 		$contents['count']++;
-			
+		
 		$proc = ($contents[$key] / $contents['count'] * 100);
 
         rewind($handle);
@@ -64,4 +63,3 @@ class Analyzer
 		printf('Клавиша с кодом %s нажимается с частотой %s', $key, $proc);
 	}
 }
-

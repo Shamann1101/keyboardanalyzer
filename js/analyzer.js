@@ -10,16 +10,20 @@ $(function() {
 			date_load = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear(),
 			time_load = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 			});
-		key = $(document).keydown(function (event) {
-			var keycode = (event.keyCode ? event.keyCode : event.which);
-/*			$$('keyboardtarget',keycode);*/
-			return keycode;
-		});
 
-		analyzer = $('.table td').click(function(key) {
+    	document.onkeydown = handle;
+
+    	function handle(e) {
+            getData(e.keyCode);
+        }
+
+		var analyzer = $('.table td').click(function() {
 			var $this = $(this),
-/*			key = $this.html(),*/
-			key = $(this).attr('id'),
+			key = $(this).attr('id');
+			getData(key);
+		});
+		
+		function getData (key) {
 			key_time = new Date(),
 /*			date_key = key_time.getDate() + "-" + (key_time.getMonth() + 1) + "-" + key_time.getFullYear(),
 			time_key = key_time.getHours() + ":" + key_time.getMinutes() + ":" + key_time.getSeconds(),*/
@@ -46,6 +50,5 @@ $(function() {
 				console.log('done', arguments);
 				$$('keyboardtarget',data);
 				});
-		/*	$keyboardtarget.html(key);*/
-		})
+		}
 });

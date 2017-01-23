@@ -10,29 +10,32 @@ $(function() {
 			date_load = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear(),
 			time_load = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 			});
-		key = $(document).keydown(function (event) {
-			var keycode = (event.keyCode ? event.keyCode : event.which);
-/*			$$('keyboardtarget',keycode);*/
-			return keycode;
-		});
 
-		analyzer = $('.table td').click(function(key) {
+    	document.onkeydown = handle;
+
+    	function handle(e) {
+            getData(e.keyCode);
+        }
+
+		var analyzer = $('.table td').click(function() {
 			var $this = $(this),
-/*			key = $this.html(),*/
-			key = $(this).attr('id'),
-			key_time = new Date(),
-/*			date_key = key_time.getDate() + "-" + (key_time.getMonth() + 1) + "-" + key_time.getFullYear(),
-			time_key = key_time.getHours() + ":" + key_time.getMinutes() + ":" + key_time.getSeconds(),*/
+			key = $(this).attr('id');
+			getData(key);
+		});
+		
+		function go2(){$("#keyboardtarget").load("index.html #keyboardtarget");};
+		
+		function on2() {timeoutId = setTimeout(go2, 3000)};
+		
+		function getData (key) {
 			request = $.ajax({
 				url: "robot.php",
 				type: "POST",
 				data: {
 					'date_load' : date_load,
 					'time_load' : time_load,
-/*					'date_key' : date_key,
-					'time_key' : time_key,*/
 					'key' : key
-				},	//Данные уходят
+				},
 				success: function() {
 					console.log('success', arguments);
 				},
@@ -45,7 +48,8 @@ $(function() {
 			}).done(function(data) {
 				console.log('done', arguments);
 				$$('keyboardtarget',data);
+				on2();
 				});
-		/*	$keyboardtarget.html(key);*/
-		})
+		}
 });
+

@@ -23,20 +23,19 @@ $(function() {
 			getData(key);
 		});
 		
+		function go2(){$("#keyboardtarget").load("index.html #keyboardtarget");};
+		
+		function on2() {timeoutId = setTimeout(go2, 3000)};
+		
 		function getData (key) {
-			key_time = new Date(),
-/*			date_key = key_time.getDate() + "-" + (key_time.getMonth() + 1) + "-" + key_time.getFullYear(),
-			time_key = key_time.getHours() + ":" + key_time.getMinutes() + ":" + key_time.getSeconds(),*/
 			request = $.ajax({
 				url: "robot.php",
 				type: "POST",
 				data: {
 					'date_load' : date_load,
 					'time_load' : time_load,
-/*					'date_key' : date_key,
-					'time_key' : time_key,*/
 					'key' : key
-				},	//Данные уходят
+				},
 				success: function() {
 					console.log('success', arguments);
 				},
@@ -49,6 +48,7 @@ $(function() {
 			}).done(function(data) {
 				console.log('done', arguments);
 				$$('keyboardtarget',data);
+				on2();
 				});
 		}
 });

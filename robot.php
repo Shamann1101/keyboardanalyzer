@@ -23,4 +23,4 @@ $log = new Logging($data);
 
 $proc = new Analyzer($data['key']);
 
-var_dump($proc);
+//var_dump($proc);

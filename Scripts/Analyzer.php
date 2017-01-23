@@ -7,10 +7,15 @@ class Analyzer
 	*/
 	const PATCH = 'log/analyzer.txt';
 
+    /**
+     * Возвращает JSON как массив
+     */
+    const JSON_AS_ARRAY = true;
+
 	/**
 	* Функция поиска предыдущего значения ключа
 	*
-	* @param string $key
+	* @param string $key Код введенной клавиши
 	* @return string
 	*/
 	public function edit_data($key) {
@@ -23,33 +28,45 @@ class Analyzer
 			$data = array ('count' => '1', $key => '1');
 			fwrite($handle, json_encode($data));
 			fclose($handle);
-			return intval(100);
+//			echo 'key='.$key;
+//            var_dump($handle);
+			return 'New file. 100';
 		}
-		$contents = fread($handle, filesize(self::PATCH));
-		$contents = json_decode($contents);	//Ругается на формат
-		print_r($contents);
-		
+
 		$x = 1;
-		
-		if (isset($contents[$key])) {
-			$x = $contents[$key];
+		$contents = file_get_contents(self::PATCH);
+/*
+		$contents = fread($handle, filesize(self::PATCH));
+        $contents = json_decode($contents, self::JSON_AS_ARRAY);
+*/
+//        $contents = str_split($contents);
+        var_dump($contents);
+        echo PHP_EOL.'---------'.PHP_EOL;
+
+        if (isset($contents[$key])) {
+            echo $contents[$key];
+			$x = intval($contents[$key]);
 		} else {
+            echo 'Nope '.$key.PHP_EOL;
 			$contents[$key] = 1;
 		};
-		
-		$contents['count']++;
+
+		$contents['count'] = intval($contents['count']) + 1;
 		
 		$proc = ($x / $contents['count'] * 100);
 
+        rewind($handle);
 		fwrite($handle, json_encode($contents));
 		fclose($handle);
-		
+
+//        echo 'key='.$key.' ';
 		return $proc;
 	}
 	
 	/**
 	* Результирующий метод класса
 	*
+    * @param string $key Код введенной клавиши
 	*/
 	public function __construct($key) {
 		echo $this->edit_data($key);

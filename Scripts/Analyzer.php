@@ -16,41 +16,45 @@ class Analyzer
 	* Функция поиска предыдущего значения ключа
 	*
 	* @param string $key Код введенной клавиши
-	* @return string
+	* @return array
 	*/
 	public function edit_data($key) {
-		
+
 		if (!$handle = fopen(self::PATCH, 'c+')) {
 			 echo "Не могу открыть файл";
 			 exit;
 		}
 		if (filesize(self::PATCH) == 0) {
-			$data = array ('count' => 1, $key => 1);
+			$data = array ('count' => 1, $key => array('key' => 1, 'last' => 0));
 			fwrite($handle, json_encode($data));
 			fclose($handle);
-			return '100';
+			return array('last' => 0, 'new' => 1);
 		}
 
-		$x = 1;
+		$contents_read = fread($handle, filesize(self::PATCH));
+        $contents = json_decode($contents_read, self::JSON_AS_ARRAY);
 
-		$contents = fread($handle, filesize(self::PATCH));
-        $contents = json_decode($contents, self::JSON_AS_ARRAY);
+        echo filesize(self::PATCH).PHP_EOL;
+
+        $proc = array('last' => 0, 'new' => 0);
 
         if (isset($contents[$key])) {
-			$contents[$key]++;
+			$contents[$key]['key']++;
+            $proc['last'] = $contents[$key]['last'];
 		} else {
-			$contents[$key] = 1;
-		};
+			$contents[$key]['key'] = 1;
+        };
 
 		$contents['count']++;
-		
-		$proc = ($contents[$key] / $contents['count'] * 100);
+
+		$proc['new'] = ($contents[$key]['key'] / $contents['count'] * 100);
+        $contents[$key]['last'] = $proc['new'];
 
         rewind($handle);
 		fwrite($handle, json_encode($contents));
 		fclose($handle);
-		
-		return (string) $proc;
+
+		return $proc;
 	}
 	
 	/**
@@ -60,6 +64,8 @@ class Analyzer
 	*/
 	public function __construct($key) {
 		$proc = $this->edit_data($key);
-		printf('Клавиша с кодом %s нажимается с частотой %s', $key, $proc);
+		printf('Клавиша с кодом %s нажимается с частотой %s. Предыдущее значение %s',
+            $key, $proc['new'], $proc['last']);
+		return $proc['new'];
 	}
 }

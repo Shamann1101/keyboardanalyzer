@@ -32,14 +32,15 @@ class Logging
 	* @param array $param входной массив PHP
 	*/
 	public function writing($param) {
-		$fileName = str_replace('.', '_', $param['user_ip']).'.txt';
+//		$fileName = str_replace('.', '_', $param['user_ip']).'.txt';
+		$fileName = $param['user_id'].'.txt';
 		$fileDir = self::DIR.$fileName;
 
 		$arrkey = array_keys($param);
 		$arrval = array_values($param);
 		$data = '';
 		for ($i = 0; $i < count($arrval); $i++) {
-			if ($arrkey[$i] == 'user_ip') {
+			if ($arrkey[$i] == 'user_id') {
 				continue;
 			}
 			$data .= $arrval[$i].' ';

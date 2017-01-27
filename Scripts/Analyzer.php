@@ -2,70 +2,76 @@
 
 class Analyzer
 {
-	/**
-	* Адрес файла анализатора
-	*/
-	const PATCH = 'log/analyzer.txt';
+    /**
+     * Директория с файлами лога
+     */
+    const DIR = 'log/';
 
     /**
-     * Возвращает JSON как массив
-     */
+      * Возвращает JSON как массив
+      */
     const JSON_AS_ARRAY = true;
 
-	/**
-	* Функция поиска предыдущего значения ключа
-	*
-	* @param string $key Код введенной клавиши
-	* @return array
-	*/
-	public function edit_data($key) {
+    /**
+     * @param $key
+     * @param $user_id
+     * @return float|int
+     */
+    function byUserID ($key, $user_id) {
+        $data_array = $this->getData($user_id);
+        $count_data = count($data_array);
+        $count_keys = 0;
 
-		if (!$handle = fopen(self::PATCH, 'c+')) {
-			 echo "Не могу открыть файл";
-			 exit;
-		}
-		if (filesize(self::PATCH) == 0) {
-			$data = array ('count' => 1, $key => array('key' => 1, 'last' => 0));
-			fwrite($handle, json_encode($data));
-			fclose($handle);
-			return array('last' => 0, 'new' => 1);
-		}
+        foreach ($data_array as $pressure) {
+            foreach ($pressure as $item) {
+                if ($item == $key) {
+                    $count_keys++;
+                }
+            }
+        }
 
-		$contents_read = fread($handle, filesize(self::PATCH));
-        $contents = json_decode($contents_read, self::JSON_AS_ARRAY);
+        $percent = $count_keys / $count_data * 100;
 
-        echo filesize(self::PATCH).PHP_EOL;
+        return $percent;
+    }
 
-        $proc = array('last' => 0, 'new' => 0);
+    /**
+     * Преобразование файла в многомерный массив по id
+     *
+     * @param $user_id
+     * @return array
+     */
+    function getData ($user_id) {
+        $patch = $this->getPatch($user_id);
 
-        if (isset($contents[$key])) {
-			$contents[$key]['key']++;
-            $proc['last'] = $contents[$key]['last'];
-		} else {
-			$contents[$key]['key'] = 1;
-        };
+        if (is_file($patch)) {
+            /*
+             * ЕСЛИ ФАЙЛА ЕЩЕ НЕТ
+             */
+        }
 
-		$contents['count']++;
+        $data_array = file_get_contents($patch);
+        $data_array = explode(';', $data_array);
+        $count_data = count($data_array);
 
-		$proc['new'] = ($contents[$key]['key'] / $contents['count'] * 100);
-        $contents[$key]['last'] = $proc['new'];
+        for ($i = 0; $i < $count_data; $i++) {
+            $data_array[$i] = json_decode($data_array[$i], self::JSON_AS_ARRAY);
+        }
 
-        rewind($handle);
-		fwrite($handle, json_encode($contents));
-		fclose($handle);
+        return $data_array;
+    }
 
-		return $proc;
-	}
-	
-	/**
-	* Результирующий метод класса
-	*
-    * @param string $key Код введенной клавиши
-	*/
-	public function __construct($key) {
-		$proc = $this->edit_data($key);
-		printf('Клавиша с кодом %s нажимается с частотой %s. Предыдущее значение %s',
-            $key, $proc['new'], $proc['last']);
-		return $proc['new'];
-	}
+    /**
+     * На случай сложного формирования пути
+     *
+     * @param $user_id
+     * @return string
+     */
+    function getPatch ($user_id) {
+        $patch = self::DIR.$user_id.'.txt';
+        return $patch;
+    }
+
+    function __construct() {
+    }
 }

@@ -41,6 +41,17 @@ class Logging
         file_put_contents($filePatch, $put_content, FILE_APPEND);
 
 	}
+
+    /**
+     * Проверка существования директории для лога
+     *
+     * @param string $dir
+     */
+	function checkDir ($dir = self::DIR) {
+	    if (!is_dir($dir)) {
+	        mkdir($dir);
+        }
+    }
 	
 	/**
 	 * Результирующий метод класса
@@ -48,6 +59,7 @@ class Logging
 	 * @param array $input входной массив Json
 	 */
 	public function __construct($input) {
+	    $this->checkDir();
 		$this->writing($input);
 	}
 }

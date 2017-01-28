@@ -3,13 +3,13 @@
 require_once('Scripts/Logging.php');
 require_once('Scripts/Analyzer.php');
 
-if (empty($_POST)) echo 'INPUT DATA IS EMPTY';
-
-$data = $_POST;
-
-$data['user_ip'] = $_SERVER['REMOTE_ADDR'];
-
 try {
+    if (empty($_POST)) {
+        throw new Exception('Нет входных данных');
+    }
+    $data = $_POST;
+    $data['user_ip'] = $_SERVER['REMOTE_ADDR'];
+
     $analyzer = new Analyzer();
     $percent = $analyzer->byUserID($data['key'], $data['user_id']);
     $data['result'] = $percent;

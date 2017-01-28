@@ -18,9 +18,9 @@ class Analyzer
      * @return float|int
      */
     function byUserID ($key, $user_id) {
-        $data_array = $this->getData($user_id);
-        $count_data = count($data_array);
-        $count_keys = 0;
+        $data_array = $this->getData($key, $user_id);
+        $count_data = count($data_array) + 1;
+        $count_keys = 1;
 
         foreach ($data_array as $pressure) {
             foreach ($pressure as $item) {
@@ -38,16 +38,15 @@ class Analyzer
     /**
      * Преобразование файла в многомерный массив по id
      *
+     * @param $key
      * @param $user_id
      * @return array
      */
-    function getData ($user_id) {
-        $patch = $this->getPatch($user_id);
+    function getData ($key, $user_id) {
+        $patch = $this->getFileName($user_id);
 
-        if (is_file($patch)) {
-            /*
-             * ЕСЛИ ФАЙЛА ЕЩЕ НЕТ
-             */
+        if (!is_file($patch)) {
+            return array(array('key' => $key));
         }
 
         $data_array = file_get_contents($patch);
@@ -67,7 +66,7 @@ class Analyzer
      * @param $user_id
      * @return string
      */
-    function getPatch ($user_id) {
+    function getFileName ($user_id) {
         $patch = self::DIR.$user_id.'.txt';
         return $patch;
     }

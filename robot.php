@@ -9,6 +9,12 @@ $data = $_POST;
 
 $data['user_ip'] = $_SERVER['REMOTE_ADDR'];
 
-$log = new Logging($data);
-
-$proc = new Analyzer($data['key']);
+try {
+    $analyzer = new Analyzer();
+    $percent = $analyzer->byUserID($data['key'], $data['user_id']);
+    $data['result'] = $percent;
+    $log = new Logging($data);
+    printf('Клавиша %s нашимается с частотой %s', $data['key'], $percent);
+} catch (Exception $e) {
+    echo 'Поймано исключение: ',  $e->getMessage(), "\n";
+}

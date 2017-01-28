@@ -34,7 +34,7 @@ class Logging
 
         if (is_file($filePatch)) {
             if (filesize($filePatch) > 0) {
-                $put_content = ';' . json_encode($param).PHP_EOL;
+                $put_content = ';'.PHP_EOL.json_encode($param);
             }
         }
 

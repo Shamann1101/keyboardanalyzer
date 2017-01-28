@@ -13,6 +13,8 @@ class Analyzer
     const JSON_AS_ARRAY = true;
 
     /**
+     * Возвращает процент появления ключа в логе пользователя
+     *
      * @param $key
      * @param $user_id
      * @return float|int
